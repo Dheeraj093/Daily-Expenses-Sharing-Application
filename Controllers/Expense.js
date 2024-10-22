@@ -90,7 +90,7 @@ const addExpense = async (req, res, next) => {
 
 
 // Function to get individual user's expenses
-const getUserExpenses = async (req, res, next) => {
+const getUserExpensesOnly = async (req, res, next) => {
   try {
     const userId = req.user._id; // Get the user ID from the request
 
@@ -112,7 +112,7 @@ const getUserExpenses = async (req, res, next) => {
     // Transform the expenses array to include user-specific expense details
     const userExpensesDetails = expenses.map(expense => {
       // Get user's share for the expense
-      const userShare = expense.splitAmounts[ userId ]; 
+      const userShare = expense.splitAmounts.get(userId) ; 
       if (userShare) {
         totalExpense += userShare; // Sum up the user's share
       }
@@ -250,7 +250,7 @@ module.exports = {
   addExpense,
   downloadBalanceSheet,
   getUserExpensesList,
-  getUserExpenses,
+  getUserExpensesOnly,
   getAllExpensesList,
 };
  
